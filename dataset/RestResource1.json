@@ -1,0 +1,15 @@
+{
+	"name": "RestResource1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OpenWeatherREST",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "/data/3.0/history/hourly?lat=42.3601&lon=-71.0589"
+		},
+		"schema": []
+	}
+}
