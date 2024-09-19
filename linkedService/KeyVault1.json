@@ -1,0 +1,11 @@
+{
+	"name": "KeyVault1",
+	"properties": {
+		"description": "OpenWeather vault",
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://egulottyKeyVault.vault.azure.net/"
+		}
+	}
+}
