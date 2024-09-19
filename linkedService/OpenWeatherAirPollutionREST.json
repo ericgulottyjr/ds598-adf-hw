@@ -1,0 +1,21 @@
+{
+	"name": "OpenWeatherAirPollutionREST",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "http://api.openweathermap.org/ ",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Basic",
+			"userName": "egulotty@bu.edu",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVaultOpenWeather",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "egulottyOpenWeather"
+			}
+		}
+	}
+}
