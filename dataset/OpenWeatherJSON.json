@@ -1,0 +1,19 @@
+{
+	"name": "OpenWeatherJSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OpenWeatherDataLakeStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "Bronze",
+				"fileSystem": "ds598blobstorage"
+			}
+		},
+		"schema": {}
+	}
+}
