@@ -1,0 +1,12 @@
+{
+	"name": "OWPollution",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OpenWeatherAirPollutionREST",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
