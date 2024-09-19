@@ -1,0 +1,22 @@
+{
+	"name": "OpenWeatherREST",
+	"properties": {
+		"description": "REST API OpenWeather",
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://history.openweathermap.org/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Basic",
+			"userName": "egulotty@bu.edu",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVaultOpenWeather",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "egulottyOpenWeather"
+			}
+		}
+	}
+}
