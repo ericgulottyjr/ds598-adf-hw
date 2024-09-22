@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "GET",
-					"url": "https://egulottyKeyVault/secrets/OpenWeatherAPIKey?api-version=7.0",
+					"url": "https://egulottykeyvault.vault.azure.net/secrets/egulottyOpenWeather/cf1ff9de917945df8507bc26334c1d22",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://vault.azure.net"
