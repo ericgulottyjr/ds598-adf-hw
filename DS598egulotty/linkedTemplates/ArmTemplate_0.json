@@ -258,7 +258,7 @@
 						"typeProperties": {
 							"method": "GET",
 							"headers": {},
-							"url": "https://egulottykeyvault.vault.azure.net/secrets/egulottyOpenWeather/cf1ff9de917945df8507bc26334c1d22",
+							"url": "https://egulottykeyvault.vault.azure.net/secrets/egulottyOpenWeather/cf1ff9de917945df8507bc26334c1d22?api-version=7.0",
 							"authentication": {
 								"type": "MSI",
 								"resource": "https://vault.azure.net"
