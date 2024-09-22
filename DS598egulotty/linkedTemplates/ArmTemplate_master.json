@@ -7,9 +7,37 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DS598egulotty"
 		},
+		"OpenWeatherDataLakeStorage_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'OpenWeatherDataLakeStorage'"
+		},
 		"egulottyGitHub_credential": {
 			"type": "secureString",
 			"metadata": "Secure string for 'credential' of 'egulottyGitHub'"
+		},
+		"AzureKeyVaultOpenWeather_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://egulottyKeyVault.vault.azure.net/"
+		},
+		"OpenWeatherAirPollutionREST_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "http://api.openweathermap.org/ "
+		},
+		"OpenWeatherAirPollutionREST_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "egulotty@bu.edu"
+		},
+		"OpenWeatherDataLakeStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://egulottyds598storage.dfs.core.windows.net/"
+		},
+		"OpenWeatherREST_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://history.openweathermap.org/"
+		},
+		"OpenWeatherREST_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "egulotty@bu.edu"
 		},
 		"egulottyGitHub_properties_typeProperties_username": {
 			"type": "string",
@@ -42,11 +70,32 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"OpenWeatherDataLakeStorage_accountKey": {
+						"value": "[parameters('OpenWeatherDataLakeStorage_accountKey')]"
+					},
 					"egulottyGitHub_credential": {
 						"value": "[parameters('egulottyGitHub_credential')]"
 					},
+					"AzureKeyVaultOpenWeather_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVaultOpenWeather_properties_typeProperties_baseUrl')]"
+					},
+					"OpenWeatherDataLakeStorage_properties_typeProperties_url": {
+						"value": "[parameters('OpenWeatherDataLakeStorage_properties_typeProperties_url')]"
+					},
 					"egulottyGitHub_properties_typeProperties_username": {
 						"value": "[parameters('egulottyGitHub_properties_typeProperties_username')]"
+					},
+					"OpenWeatherAirPollutionREST_properties_typeProperties_url": {
+						"value": "[parameters('OpenWeatherAirPollutionREST_properties_typeProperties_url')]"
+					},
+					"OpenWeatherAirPollutionREST_properties_typeProperties_userName": {
+						"value": "[parameters('OpenWeatherAirPollutionREST_properties_typeProperties_userName')]"
+					},
+					"OpenWeatherREST_properties_typeProperties_url": {
+						"value": "[parameters('OpenWeatherREST_properties_typeProperties_url')]"
+					},
+					"OpenWeatherREST_properties_typeProperties_userName": {
+						"value": "[parameters('OpenWeatherREST_properties_typeProperties_userName')]"
 					}
 				}
 			},

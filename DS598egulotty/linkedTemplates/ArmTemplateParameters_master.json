@@ -5,8 +5,29 @@
 		"factoryName": {
 			"value": "DS598egulotty"
 		},
+		"OpenWeatherDataLakeStorage_accountKey": {
+			"value": ""
+		},
 		"egulottyGitHub_credential": {
 			"value": ""
+		},
+		"AzureKeyVaultOpenWeather_properties_typeProperties_baseUrl": {
+			"value": "https://egulottyKeyVault.vault.azure.net/"
+		},
+		"OpenWeatherAirPollutionREST_properties_typeProperties_url": {
+			"value": "http://api.openweathermap.org/ "
+		},
+		"OpenWeatherAirPollutionREST_properties_typeProperties_userName": {
+			"value": "egulotty@bu.edu"
+		},
+		"OpenWeatherDataLakeStorage_properties_typeProperties_url": {
+			"value": "https://egulottyds598storage.dfs.core.windows.net/"
+		},
+		"OpenWeatherREST_properties_typeProperties_url": {
+			"value": "https://history.openweathermap.org/"
+		},
+		"OpenWeatherREST_properties_typeProperties_userName": {
+			"value": "egulotty@bu.edu"
 		},
 		"egulottyGitHub_properties_typeProperties_username": {
 			"value": "ericgulottyjr"
