@@ -5,8 +5,30 @@
 			"referenceName": "OpenWeatherAirPollutionREST",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"lat": {
+				"type": "string",
+				"defaultValue": "42.3601"
+			},
+			"lon": {
+				"type": "string",
+				"defaultValue": "-71.0539"
+			},
+			"start": {
+				"type": "string"
+			},
+			"end": {
+				"type": "string"
+			},
+			"appid": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}"
+		},
 		"schema": []
 	}
 }
