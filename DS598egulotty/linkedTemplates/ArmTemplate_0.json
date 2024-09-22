@@ -370,11 +370,6 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"parameters": {
-					"dateRanges": {
-						"type": "array"
-					}
-				},
 				"annotations": []
 			},
 			"dependsOn": [
