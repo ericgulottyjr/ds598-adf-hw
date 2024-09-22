@@ -249,10 +249,13 @@
 												"lat": "42.3601",
 												"lon": "-71.0539",
 												"start": {
-													"value": "@div(sub(ticks(addDays(utcNow(), sub(0, mul(item(), 7)))), ticks('1970-01-01T00:00:00Z')), 10000000)\n",
+													"value": "@div(sub(ticks(addDays(utcNow(), sub(0, mul(add(item(), 1), 7)))), ticks('1970-01-01T00:00:00Z')), 10000000)",
 													"type": "Expression"
 												},
-												"end": "@div(sub(ticks(addDays(utcNow(), sub(0, mul(add(item(), 1), 7)))), ticks('1970-01-01T00:00:00Z')), 10000000)",
+												"end": {
+													"value": "@div(sub(ticks(addDays(utcNow(), sub(0, mul(item(), 7)))), ticks('1970-01-01T00:00:00Z')), 10000000)",
+													"type": "Expression"
+												},
 												"appid": {
 													"value": "@activity('Web1').output.value",
 													"type": "Expression"
