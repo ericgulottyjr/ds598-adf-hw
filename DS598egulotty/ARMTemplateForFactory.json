@@ -135,7 +135,10 @@
 												"lon": "-71.0539",
 												"start": "@div(sub(ticks(utcNow()), ticks('1970-01-01T00:00:00Z')), 10000000)",
 												"end": "@div(sub(ticks(addDays(utcNow(), -7)), ticks('1970-01-01T00:00:00Z')), 10000000)",
-												"appid": "@activity(\"Web1\").output.value"
+												"appid": {
+													"value": "@activity('Web1').output.value",
+													"type": "Expression"
+												}
 											}
 										}
 									],
@@ -180,15 +183,15 @@
 						"defaultValue": "-71.0539"
 					},
 					"start": {
-						"type": "object",
+						"type": "string",
 						"defaultValue": "@div(sub(ticks(utcNow()), ticks('1970-01-01T00:00:00Z')), 10000000)"
 					},
 					"end": {
-						"type": "object",
+						"type": "string",
 						"defaultValue": "@div(sub(ticks(addDays(utcNow(), -7)), ticks('1970-01-01T00:00:00Z')), 10000000)"
 					},
 					"appid": {
-						"type": "object",
+						"type": "string",
 						"defaultValue": "@activity(\"Web1\").output.value"
 					}
 				},
