@@ -36,6 +36,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@range(0,52)",
+						"type": "Expression"
+					},
 					"isSequential": true,
 					"activities": [
 						{
