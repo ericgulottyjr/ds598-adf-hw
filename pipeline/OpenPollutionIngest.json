@@ -103,11 +103,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"dateRanges": {
-				"type": "array"
-			}
-		},
 		"annotations": []
 	}
 }
