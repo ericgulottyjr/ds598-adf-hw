@@ -133,8 +133,14 @@
 											"parameters": {
 												"lat": "42.3601",
 												"lon": "-71.0539",
-												"start": "@div(sub(ticks(utcNow()), ticks('1970-01-01T00:00:00Z')), 10000000)",
-												"end": "@div(sub(ticks(addDays(utcNow(), -7)), ticks('1970-01-01T00:00:00Z')), 10000000)",
+												"start": {
+													"value": "@div(sub(ticks(addDays(utcNow(), sub(0, mul(item().weekOffset, 7)))), ticks('1970-01-01T00:00:00Z')), 10000000)",
+													"type": "Expression"
+												},
+												"end": {
+													"value": "@div(sub(ticks(addDays(utcNow(), sub(0, mul(add(item().weekOffset, 1), 7)))), ticks('1970-01-01T00:00:00Z')), 10000000)",
+													"type": "Expression"
+												},
 												"appid": {
 													"value": "@activity('Web1').output.value",
 													"type": "Expression"
@@ -183,16 +189,13 @@
 						"defaultValue": "-71.0539"
 					},
 					"start": {
-						"type": "string",
-						"defaultValue": "@div(sub(ticks(utcNow()), ticks('1970-01-01T00:00:00Z')), 10000000)"
+						"type": "string"
 					},
 					"end": {
-						"type": "string",
-						"defaultValue": "@div(sub(ticks(addDays(utcNow(), -7)), ticks('1970-01-01T00:00:00Z')), 10000000)"
+						"type": "string"
 					},
 					"appid": {
-						"type": "string",
-						"defaultValue": "@activity('Web1').output.value"
+						"type": "string"
 					}
 				},
 				"annotations": [],
