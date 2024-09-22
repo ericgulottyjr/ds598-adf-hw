@@ -69,7 +69,7 @@
 						"typeProperties": {
 							"method": "GET",
 							"headers": {},
-							"url": "https://egulottyKeyVault/secrets/OpenWeatherAPIKey?api-version=7.0",
+							"url": "https://egulottykeyvault.vault.azure.net/secrets/egulottyOpenWeather/cf1ff9de917945df8507bc26334c1d22?api-version=7.0",
 							"authentication": {
 								"type": "MSI",
 								"resource": "https://vault.azure.net"
@@ -133,7 +133,16 @@
 										{
 											"referenceName": "OWPollution",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"lat": "42.3601",
+												"lon": "-71.0539",
+												"start": "@div(sub(ticks(addDays(utcNow(), -364)), ticks('1970-01-01T00:00:00Z')), 10000000)",
+												"end": "@div(sub(ticks(utcNow()), ticks('1970-01-01T00:00:00Z')), 10000000)",
+												"appid": {
+													"value": "@activity('Web1').output.value",
+													"type": "Expression"
+												}
+											}
 										}
 									],
 									"outputs": [
@@ -243,7 +252,7 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "RestResource1",
+											"referenceName": "OWHistorical",
 											"type": "DatasetReference",
 											"parameters": {
 												"lat": "42.3601",
@@ -281,54 +290,12 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
+				"[concat(variables('factoryId'), '/datasets/OWHistorical')]",
 				"[concat(variables('factoryId'), '/datasets/OpenWeatherJSON')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/OWPollution')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "OpenWeatherAirPollutionREST",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherAirPollutionREST')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/OpenWeatherJSON')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "OpenWeatherDataLakeStorage",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "Bronze",
-						"fileSystem": "ds598blobstorage"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherDataLakeStorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestResource1')]",
+			"name": "[concat(parameters('factoryName'), '/OWHistorical')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -367,6 +334,72 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherREST')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OWPollution')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "OpenWeatherAirPollutionREST",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"lat": {
+						"type": "string",
+						"defaultValue": "42.3601"
+					},
+					"lon": {
+						"type": "string",
+						"defaultValue": "-71.0539"
+					},
+					"start": {
+						"type": "string"
+					},
+					"end": {
+						"type": "string"
+					},
+					"appid": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": {
+						"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}",
+						"type": "Expression"
+					}
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherAirPollutionREST')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OpenWeatherJSON')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "OpenWeatherDataLakeStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "Bronze",
+						"fileSystem": "ds598blobstorage"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherDataLakeStorage')]"
 			]
 		},
 		{
