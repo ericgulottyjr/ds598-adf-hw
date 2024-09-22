@@ -1,5 +1,5 @@
 {
-	"name": "OpenWeatherIngest",
+	"name": "OpenPollutionIngest",
 	"properties": {
 		"activities": [
 			{
@@ -36,10 +36,6 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"items": {
-						"value": "@range(0,52)",
-						"type": "Expression"
-					},
 					"isSequential": true,
 					"activities": [
 						{
@@ -59,7 +55,10 @@
 									"type": "RestSource",
 									"httpRequestTimeout": "00:01:40",
 									"requestInterval": "00.00:00:00.010",
-									"requestMethod": "GET"
+									"requestMethod": "GET",
+									"paginationRules": {
+										"supportRFC5988": "true"
+									}
 								},
 								"sink": {
 									"type": "JsonSink",
@@ -75,11 +74,8 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "RestResource1",
-									"type": "DatasetReference",
-									"parameters": {
-										"lon": -71.0539
-									}
+									"referenceName": "OWPollution",
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
@@ -93,6 +89,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"dateRanges": {
+				"type": "array"
+			}
+		},
 		"annotations": []
 	}
 }
