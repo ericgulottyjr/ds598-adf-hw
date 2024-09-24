@@ -15,10 +15,10 @@
 				"defaultValue": "-71.0539"
 			},
 			"start": {
-				"type": "string"
+				"type": "int"
 			},
 			"end": {
-				"type": "string"
+				"type": "int"
 			},
 			"appid": {
 				"type": "string"
@@ -28,7 +28,7 @@
 		"type": "RestResource",
 		"typeProperties": {
 			"relativeUrl": {
-				"value": "data/2.5/air_pollution/history?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}\n",
+				"value": "data/2.5/air_pollution/history?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}",
 				"type": "Expression"
 			}
 		},
