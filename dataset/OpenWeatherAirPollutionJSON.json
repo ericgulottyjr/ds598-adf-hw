@@ -1,5 +1,5 @@
 {
-	"name": "OpenWeatherHistoricalJSON",
+	"name": "OpenWeatherAirPollutionJSON",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "OpenWeatherDataLakeStorage",
@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "Bronze/Historical",
+				"folderPath": "Bronze",
 				"fileSystem": "ds598blobstorage"
 			}
 		},

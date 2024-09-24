@@ -79,7 +79,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "OpenWeatherJSON",
+						"referenceName": "OpenWeatherAirPollutionJSON",
 						"type": "DatasetReference"
 					}
 				]

@@ -97,7 +97,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "OpenWeatherJSON",
+									"referenceName": "OpenWeatherHistoricalJSON",
 									"type": "DatasetReference"
 								}
 							]
