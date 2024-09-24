@@ -98,7 +98,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/OpenWeatherJSON')]",
+			"name": "[concat(parameters('factoryName'), '/OpenWeatherAirPollutionJSON')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -112,6 +112,30 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"folderPath": "Bronze",
+						"fileSystem": "ds598blobstorage"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherDataLakeStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OpenWeatherHistoricalJSON')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "OpenWeatherDataLakeStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "Bronze/Historical",
 						"fileSystem": "ds598blobstorage"
 					}
 				},
@@ -342,7 +366,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "OpenWeatherJSON",
+								"referenceName": "OpenWeatherAirPollutionJSON",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -356,7 +380,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/OWPollution')]",
-				"[concat(variables('factoryId'), '/datasets/OpenWeatherJSON')]"
+				"[concat(variables('factoryId'), '/datasets/OpenWeatherAirPollutionJSON')]"
 			]
 		},
 		{
@@ -461,7 +485,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "OpenWeatherJSON",
+											"referenceName": "OpenWeatherHistoricalJSON",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
@@ -478,7 +502,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/OWHistorical')]",
-				"[concat(variables('factoryId'), '/datasets/OpenWeatherJSON')]"
+				"[concat(variables('factoryId'), '/datasets/OpenWeatherHistoricalJSON')]"
 			]
 		}
 	]
