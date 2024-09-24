@@ -15,7 +15,7 @@
 			"value": "https://egulottyKeyVault.vault.azure.net/"
 		},
 		"OpenWeatherAirPollutionREST_properties_typeProperties_url": {
-			"value": "http://api.openweathermap.org/ "
+			"value": "http://api.openweathermap.org/"
 		},
 		"OpenWeatherAirPollutionREST_properties_typeProperties_userName": {
 			"value": "egulotty@bu.edu"
