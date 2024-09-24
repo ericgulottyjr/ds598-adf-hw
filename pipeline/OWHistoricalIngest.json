@@ -1,5 +1,5 @@
 {
-	"name": "OpenWeatherIngest",
+	"name": "OWHistoricalIngest",
 	"properties": {
 		"activities": [
 			{
