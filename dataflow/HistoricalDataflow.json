@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "HistoricalDataflow",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -13,7 +13,11 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "flatten1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          message as string,",
@@ -27,7 +31,32 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine',",
-				"     wildcardPaths:['*.json']) ~> HistoricalOWData"
+				"     wildcardPaths:['*.json']) ~> HistoricalOWData",
+				"HistoricalOWData foldDown(unroll(),",
+				"     mapColumn(",
+				"          message,",
+				"          cod,",
+				"          city_id,",
+				"          calctime,",
+				"          cnt,",
+				"          clouds_all = list.clouds.all,",
+				"          timestamp = list.dt,",
+				"          temp = list.main.temp,",
+				"          feels_like = list.main.feels_like,",
+				"          pressure = list.main.pressure,",
+				"          humidity = list.main.humidity,",
+				"          temp_min = list.main.temp_min,",
+				"          temp_max = list.main.temp_max,",
+				"          wind_speed = list.wind.speed,",
+				"          wind_deg = list.wind.deg,",
+				"          wind_gust = list.wind.gust,",
+				"          weather_id = list.weather.id,",
+				"          weather_main = list.weather.main,",
+				"          weather_description = list.weather.description,",
+				"          weather_icon = list.weather.icon",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1"
 			]
 		}
 	}
