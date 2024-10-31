@@ -15,7 +15,13 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "flatten1"
+					"name": "flattenJSON"
+				},
+				{
+					"name": "createTimeLoc"
+				},
+				{
+					"name": "filterInvalidRows"
 				}
 			],
 			"scriptLines": [
@@ -56,7 +62,10 @@
 				"          weather_icon = list.weather.icon",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> flatten1"
+				"     skipDuplicateMapOutputs: false) ~> flattenJSON",
+				"flattenJSON derive(corrected_timestamp = iif(length(toString(timestamp)) == 10, timestamp, toInteger(null())),",
+				"          Location = 'Boston') ~> createTimeLoc",
+				"createTimeLoc filter(ERROR_FUNCTION('')) ~> filterInvalidRows"
 			]
 		}
 	}
