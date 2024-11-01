@@ -1,0 +1,90 @@
+{
+	"name": "AirPollutionDataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "OpenWeatherAirPollutionJSON",
+						"type": "DatasetReference"
+					},
+					"name": "AirPollutionOWData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Parquet1",
+						"type": "DatasetReference"
+					},
+					"name": "SilverLayer"
+				}
+			],
+			"transformations": [
+				{
+					"name": "createTimeLoc"
+				},
+				{
+					"name": "filterInvalidRows"
+				},
+				{
+					"name": "deriveColumns"
+				},
+				{
+					"name": "RenameAndDrop"
+				},
+				{
+					"name": "UnrollFlatten"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          coord as (lon as double, lat as double),",
+				"          list as (main as (aqi as integer), components as (co as double, no as double, no2 as double, o3 as double, so2 as double, pm2_5 as double, pm10 as double, nh3 as double), dt as integer)[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> AirPollutionOWData",
+				"UnrollFlatten derive(corrected_timestamp = iif(length(toString(dt)) == 10, dt, toInteger(null())),",
+				"          location = 'Boston') ~> createTimeLoc",
+				"createTimeLoc filter(!isNull(main.aqi) && trim(toString(main.aqi)) != '' &&",
+				"!isNull(dt) && trim(toString(dt)) != '' &&",
+				"!isNull(corrected_timestamp) && trim(toString(corrected_timestamp)) != '') ~> filterInvalidRows",
+				"filterInvalidRows derive(date_time = toTimestamp(toLong(corrected_timestamp) * 1000),",
+				"          id = concat(location, toString(corrected_timestamp)),",
+				"          lon = -71.0589,",
+				"          lat = 42.3601) ~> deriveColumns",
+				"deriveColumns select(mapColumn(",
+				"          main,",
+				"          components,",
+				"          corrected_timestamp,",
+				"          location,",
+				"          date_time,",
+				"          id,",
+				"          lon,",
+				"          lat",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenameAndDrop",
+				"AirPollutionOWData foldDown(unroll(list, list),",
+				"     mapColumn(",
+				"          main = list.main,",
+				"          components = list.components,",
+				"          dt = list.dt",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> UnrollFlatten",
+				"RenameAndDrop sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SilverLayer"
+			]
+		}
+	}
+}
