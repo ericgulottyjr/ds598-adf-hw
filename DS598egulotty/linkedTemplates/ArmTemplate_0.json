@@ -305,7 +305,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
+			"name": "[concat(parameters('factoryName'), '/AirPollutionHistoricalSilver')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -318,6 +318,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "silver_airpollution_historical.parquet",
 						"folderPath": "silver",
 						"fileSystem": "ds598blobstorage"
 					},
@@ -380,6 +381,145 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVaultOpenWeather')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/WeatherHistoricalSilver')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "OpenWeatherDataLakeStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "silver_weather_historical.parquet",
+						"folderPath": "silver",
+						"fileSystem": "ds598blobstorage"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "clouds_all",
+						"type": "INT32"
+					},
+					{
+						"name": "temp_K",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "feels_like_K",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "pressure",
+						"type": "INT32"
+					},
+					{
+						"name": "humidity",
+						"type": "INT32"
+					},
+					{
+						"name": "temp_min_K",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "temp_max_K",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "wind_speed",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "wind_deg",
+						"type": "INT32"
+					},
+					{
+						"name": "wind_gust",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "corrected_timestamp",
+						"type": "INT32"
+					},
+					{
+						"name": "location",
+						"type": "UTF8"
+					},
+					{
+						"name": "date_time",
+						"type": "INT96"
+					},
+					{
+						"name": "id",
+						"type": "UTF8"
+					},
+					{
+						"name": "temp_C",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "temp_min_C",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "temp_max_C",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "feels_like_C",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "temp_F",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "temp_min_F",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "temp_max_F",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "feels_like_F",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "lon",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "lat",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "weather_id_value",
+						"type": "INT32"
+					},
+					{
+						"name": "weather_main_value",
+						"type": "UTF8"
+					},
+					{
+						"name": "weather_description_value",
+						"type": "UTF8"
+					},
+					{
+						"name": "weather_icon_value",
+						"type": "UTF8"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/OpenWeatherDataLakeStorage')]"
 			]
 		},
 		{
@@ -485,7 +625,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "Parquet1",
+								"referenceName": "AirPollutionHistoricalSilver",
 								"type": "DatasetReference"
 							},
 							"name": "SilverLayer"
@@ -519,7 +659,7 @@
 						"     documentForm: 'documentPerLine') ~> AirPollutionOWData",
 						"UnrollFlatten derive(corrected_timestamp = iif(length(toString(dt)) == 10, dt, toInteger(null())),",
 						"          location = 'Boston') ~> createTimeLoc",
-						"createTimeLoc filter(!isNull(main.aqi) && trim(toString(main.aqi)) != '' &&",
+						"createTimeLoc filter(!isNull(aqi) && trim(toString(aqi)) != '' &&",
 						"!isNull(dt) && trim(toString(dt)) != '' &&",
 						"!isNull(corrected_timestamp) && trim(toString(corrected_timestamp)) != '') ~> filterInvalidRows",
 						"filterInvalidRows derive(date_time = toTimestamp(toLong(corrected_timestamp) * 1000),",
@@ -527,22 +667,38 @@
 						"          lon = -71.0589,",
 						"          lat = 42.3601) ~> deriveColumns",
 						"deriveColumns select(mapColumn(",
-						"          main,",
-						"          components,",
+						"          lon,",
+						"          lat,",
+						"          dt,",
+						"          aqi,",
+						"          co,",
+						"          no,",
+						"          no2,",
+						"          o3,",
+						"          so2,",
+						"          pm2_5,",
+						"          pm10,",
+						"          nh3,",
 						"          corrected_timestamp,",
 						"          location,",
-						"          date_time,",
-						"          id,",
-						"          lon,",
-						"          lat",
+						"          id",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> RenameAndDrop",
 						"AirPollutionOWData foldDown(unroll(list, list),",
 						"     mapColumn(",
-						"          main = list.main,",
-						"          components = list.components,",
-						"          dt = list.dt",
+						"          lon = coord.lon,",
+						"          lat = coord.lat,",
+						"          dt = list.dt,",
+						"          aqi = list.main.aqi,",
+						"          co = list.components.co,",
+						"          no = list.components.no,",
+						"          no2 = list.components.no2,",
+						"          o3 = list.components.o3,",
+						"          so2 = list.components.so2,",
+						"          pm2_5 = list.components.pm2_5,",
+						"          pm10 = list.components.pm10,",
+						"          nh3 = list.components.nh3",
 						"     ),",
 						"     skipDuplicateMapInputs: false,",
 						"     skipDuplicateMapOutputs: false) ~> UnrollFlatten",
@@ -560,7 +716,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/OpenWeatherAirPollutionJSON')]",
-				"[concat(variables('factoryId'), '/datasets/Parquet1')]"
+				"[concat(variables('factoryId'), '/datasets/AirPollutionHistoricalSilver')]"
 			]
 		},
 		{
@@ -582,7 +738,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "Parquet1",
+								"referenceName": "WeatherHistoricalSilver",
 								"type": "DatasetReference"
 							},
 							"name": "SilverLayer"
@@ -699,6 +855,36 @@
 						"     skipDuplicateMapOutputs: false) ~> UnrollFlatten",
 						"RenameAndDrop sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     input(",
+						"          clouds_all as integer,",
+						"          temp_K as double,",
+						"          feels_like_K as double,",
+						"          pressure as integer,",
+						"          humidity as integer,",
+						"          temp_min_K as double,",
+						"          temp_max_K as double,",
+						"          wind_speed as double,",
+						"          wind_deg as integer,",
+						"          wind_gust as double,",
+						"          corrected_timestamp as integer,",
+						"          location as string,",
+						"          date_time as timestamp,",
+						"          id as string,",
+						"          temp_C as double,",
+						"          temp_min_C as double,",
+						"          temp_max_C as double,",
+						"          feels_like_C as double,",
+						"          temp_F as double,",
+						"          temp_min_F as double,",
+						"          temp_max_F as double,",
+						"          feels_like_F as double,",
+						"          lon as double,",
+						"          lat as double,",
+						"          weather_id_value as integer,",
+						"          weather_main_value as string,",
+						"          weather_description_value as string,",
+						"          weather_icon_value as string",
+						"     ),",
 						"     format: 'parquet',",
 						"     umask: 0022,",
 						"     preCommands: [],",
@@ -711,7 +897,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/OpenWeatherHistoricalJSON')]",
-				"[concat(variables('factoryId'), '/datasets/Parquet1')]"
+				"[concat(variables('factoryId'), '/datasets/WeatherHistoricalSilver')]"
 			]
 		},
 		{
