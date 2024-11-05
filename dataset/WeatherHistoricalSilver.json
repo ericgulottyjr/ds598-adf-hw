@@ -1,0 +1,134 @@
+{
+	"name": "WeatherHistoricalSilver",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OpenWeatherDataLakeStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "silver_weather_historical.parquet",
+				"folderPath": "silver",
+				"fileSystem": "ds598blobstorage"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "clouds_all",
+				"type": "INT32"
+			},
+			{
+				"name": "temp_K",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "feels_like_K",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "pressure",
+				"type": "INT32"
+			},
+			{
+				"name": "humidity",
+				"type": "INT32"
+			},
+			{
+				"name": "temp_min_K",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "temp_max_K",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "wind_speed",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "wind_deg",
+				"type": "INT32"
+			},
+			{
+				"name": "wind_gust",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "corrected_timestamp",
+				"type": "INT32"
+			},
+			{
+				"name": "location",
+				"type": "UTF8"
+			},
+			{
+				"name": "date_time",
+				"type": "INT96"
+			},
+			{
+				"name": "id",
+				"type": "UTF8"
+			},
+			{
+				"name": "temp_C",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "temp_min_C",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "temp_max_C",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "feels_like_C",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "temp_F",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "temp_min_F",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "temp_max_F",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "feels_like_F",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "lon",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "lat",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "weather_id_value",
+				"type": "INT32"
+			},
+			{
+				"name": "weather_main_value",
+				"type": "UTF8"
+			},
+			{
+				"name": "weather_description_value",
+				"type": "UTF8"
+			},
+			{
+				"name": "weather_icon_value",
+				"type": "UTF8"
+			}
+		]
+	}
+}
