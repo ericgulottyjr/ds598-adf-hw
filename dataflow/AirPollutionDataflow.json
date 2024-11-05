@@ -35,7 +35,7 @@
 					"name": "RenameAndDrop"
 				},
 				{
-					"name": "UnrollFlatten"
+					"name": "Flatten"
 				}
 			],
 			"scriptLines": [
@@ -47,10 +47,10 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> AirPollutionOWData",
-				"UnrollFlatten derive(corrected_timestamp = iif(length(toString(dt)) == 10, dt, toInteger(null())),",
+				"Flatten derive(corrected_timestamp = iif(length(toString({dt})) == 10, {dt}, toInteger(null())),",
 				"          location = 'Boston') ~> createTimeLoc",
 				"createTimeLoc filter(!isNull(aqi) && trim(toString(aqi)) != '' &&",
-				"!isNull(dt) && trim(toString(dt)) != '' &&",
+				"!isNull({dt}) && trim(toString({dt})) != '' &&",
 				"!isNull(corrected_timestamp) && trim(toString(corrected_timestamp)) != '') ~> filterInvalidRows",
 				"filterInvalidRows derive(date_time = toTimestamp(toLong(corrected_timestamp) * 1000),",
 				"          id = concat(location, toString(corrected_timestamp)),",
@@ -59,7 +59,6 @@
 				"deriveColumns select(mapColumn(",
 				"          lon,",
 				"          lat,",
-				"          dt,",
 				"          aqi,",
 				"          co,",
 				"          no,",
@@ -79,7 +78,6 @@
 				"     mapColumn(",
 				"          lon = coord.lon,",
 				"          lat = coord.lat,",
-				"          dt = list.dt,",
 				"          aqi = list.main.aqi,",
 				"          co = list.components.co,",
 				"          no = list.components.no,",
@@ -88,10 +86,11 @@
 				"          so2 = list.components.so2,",
 				"          pm2_5 = list.components.pm2_5,",
 				"          pm10 = list.components.pm10,",
-				"          nh3 = list.components.nh3",
+				"          nh3 = list.components.nh3,",
+				"          dt = list.dt",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> UnrollFlatten",
+				"     skipDuplicateMapOutputs: false) ~> Flatten",
 				"RenameAndDrop sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
