@@ -105,7 +105,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> RenameAndDrop",
-				"HistoricalOWData foldDown(unrollMultiple(list,list.weather),",
+				"HistoricalOWData foldDown(unrollMultiple(list,list),",
 				"     mapColumn(",
 				"          message,",
 				"          cod,",
